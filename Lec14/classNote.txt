@@ -1,0 +1,44 @@
+Operator
+Better to implement non-member style as we have getter and setter function
+Complex number implementation:
+"-" will have 2 operators that negate a complex number or minus another complex number
+negation should be in member functions, and minus operation should be non-member function
+In the member functions, the parameter private variable can also be accessed.
+Return by reference/value:
+- by reference: modify the variable outside the function.
+- by value: copy the variable that is created in function locally.
+
+friend:
+define:
+class Bar.
+in Foo:
+public:
+    friend Bar; (grant bar to have a full access to the current class)
+    friend Bar::some_func(); (grant private function some_func() access to the current clas)
+    friend std::istream& operator >> (std::istream& istr, Complex &c); (grant the certain function a full access to the class)
+As define, no "friend" is needed to add
+As implement, define it as a non-member function, as it doesn't have scope.
+Stream operators (non-member function):
+(cannot defined as member function, as it has defined in STL, also because it is a binary operator))
+output stream:
+    cout << z3 = operator<<(cout, z3)
+define: std::ostream& operator<< (std::ostream& ostr, const complex& c){};
+
+Unary operator: one parameter:
++ - * & + - * & ~ ! ++ -- -> ->*
+Binaary operator: two parmeters:
++ - * / % ^ & | << >> += -= *= /= %= ^=
+&= |= <<= >>= < <= > >= == != && || , [] () new new[] delete delete[]
+
+Order of implementation:
+1) Non-member function
+2) Member function
+3) Friend function
+
+Both sides protected in member function:
+Complex Complex::operator+(const Complex& rhs) const{
+}
+
+Both sides protected in non-member function:
+Complex operator- (const Complex& lhs, const Complex& rhs){
+}

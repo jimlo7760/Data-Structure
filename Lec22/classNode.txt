@@ -1,0 +1,31 @@
+Priority Queue
+Stack: first-in, last-out, all operations are O(1), can implement on a vector or list, preferred to implement on a vector
+Queue: first-in, first-out, all operations are O(1), must to implement on a list
+
+Priority Queue: queue the things based on importance.
+Implement on a vector: at least one of push/pop operation has linear time.
+Implement on a binary search tree (priority as key): O(logn)
+Implement on a binary heap(priority as the parent, the root is the least important): preferred.
+
+Binary heap: the value stored is less than the value stored at either of its children.
+Draw as tree, implement as vectors.
+Completed binary heap:
+1. full nodes in every level (a.k.a complete row) (similar to completed binary tree) (except the leaf node)
+2. put the leaf nodes as far to the left as possible.
+
+Implementing pop: delete the root. (percolate down) worst: O(logn),
+step 1: delete the root.
+step 2: replace the root with the right-most node in the bottom node (last leaf node).
+step 3: compare each level to swap with the higher-priority children to preserve binary heap.
+
+Implementing push: insert a new element. (percolate up) worst: O(logn), avg: O(1): 50% chance as the leaf node
+step 1: insert a node to the last leaf node.
+step 2: compared its priority with its parent, swap until its parent has a higher priority.
+
+Implement a heap with a vector:
+- the parent, if it exists, is at location [(i-1)/2]
+- the left child, if it exists, is at location 2i+1
+- the right child, if it exists, is at location 2i+2
+(stored it by level, followed the next level)
+(root is the first slot, the last leaf is the last slot)
+

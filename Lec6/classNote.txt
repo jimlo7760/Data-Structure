@@ -1,0 +1,41 @@
+Dynamic memory:
+created by "new"
+accessed by pointers
+removed by "delete"
+
+int *p = new int; => initialize pointer p;
+a.k.a. => int *p;
+          p = new int;
+if a defined pointer assigned a new heap "new int", this will disconnect the previous
+arrow and pointer to the newly-allocated memory address.
+
+When define a new array, the memory allocated in the heap will be continuous.
+This is why we can (p = a; p < a + n; ++p) where p is a pointer (define as int * p;)
+
+double *a = new double[n] => allocate an array in heap to the pointer a (points to the start)
+delete [] a => delete the whole array in the heap. CROSSING the whole array
+
+*: change the direction of arrow;
+without *: change the actual value in the destination of the arrow.
+
+If we want to direct our pointer to the element already in the stack, we have to add "&" to
+the r-value, in order to reference a same element instead of getting a copy.
+
+When there are two pointers points to a same element, if the first pointer change its arrow,
+the second pointer will NOT change its arrow as the first changed, but continue pointing to
+its original element.
+
+2-D array:
+double** a = new double*[rows]; => an array of pointers
+  for (int i = 0; i < rows; i++) {
+    a[i] = new double[cols];    => create an array with each pointer
+    for (int j = 0; j < cols; j++) {
+      a[i][j] = double(i+1) / double (j+1);
+    }
+}
+delete process: delete the "column" first, then delete the "row"
+for (int k=0; k < rows; k++){
+    delete [] a[k];
+}
+delete [] a: delete the array in the heap which a direct.
+delete b: delete the pointer.

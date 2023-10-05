@@ -1,0 +1,52 @@
+Garbage collection:
+Looking for the memories that has no pointer pointing to in the heap.
+
+Technique 1: reference counting: (fast) (doesnt handle cyclic)
+Attach a counter variable to each node.
+When the counter of a node become 0, add the node to the "reuse pool".
+
+Technique 2: Stop & copy (extra memory required) (handle cyclic) (slow)
+create a new memory space: copy memory
+1. Place scan and free pointers at the start of the copy memory.
+2. Copy the root to copy memory, incrementing free. When the root is copied, leave a forward
+    address in the left slot of the old memory.
+3. Starting scanning the copy memory, process left and right of each node. Check if their locations
+    have already in copy memory. If already in, update the pointer pointing to new memory. Otherwise,
+    beside updating the slot in the old pointer, also update the pointer of "scanning node", add to
+    the free slot and incrementing free.
+4. Stop until scan == free.
+5. Copy memory is now contain all the useful slot.
+
+Technique 3: Mark-sweep : (handle cyclic) (a little memory) (need to visit all memory) (slow)
+Add a bit to each slot to mark if it has been visited.
+From the root, as it has been visited, do nothing. Otherwise, add left and right pointer to the stack.
+Poping each element from the stack to process each node.
+As the stack is empty, all useful slots are marked.
+Build a free list to join every unmarked nodes by their left pointers, start from the end.
+
+Smart pointer:
+template <class T>
+class auto_ptr{
+public:
+    ~auto_prt() {delete ptr;}   => automatically delete when it become garbage.
+private:
+    T* ptr;
+}
+without smart pointer:
+void foo(){
+    Polygon* p(new Polygon()); (= Polygon* p = new Polygon())
+    ...
+    delete p;
+}
+with smart pointer:
+void foo(){
+    auto_ptr<Polygon> p(new Polygon());
+    ...
+}
+type of smart pointer:
+auto_ptr;
+unique_ptr: cannot be copied, can only transfer the ownership.
+scoped_ptr: delete things when they go out of scope.
+shared_ptr: reference counted ownership of a pointer. circular is a problem.
+weak_ptr: Use with shared_ptr.
+

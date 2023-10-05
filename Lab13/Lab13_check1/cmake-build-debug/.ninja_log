@@ -1,0 +1,6 @@
+# ninja log v5
+1	1089	1681909772336247474	CMakeFiles/Lab13_check1.dir/stop_and_copy.cpp.o	2c6ac83468f4d5f5
+0	1091	1681909772336239494	CMakeFiles/Lab13_check1.dir/main_stop_and_copy.cpp.o	9121a9fd3493ef55
+1092	1225	1681909772476063400	Lab13_check1	754f240c3bea14f8
+4	1654	1681911318852229895	CMakeFiles/Lab13_check1.dir/main_stop_and_copy.cpp.o	9121a9fd3493ef55
+1654	1808	1681911319017589485	Lab13_check1	754f240c3bea14f8

@@ -1,0 +1,74 @@
+doubly-list list
+Node:
+template <class T>
+class Node {
+    // Constructors:
+    Node(): next_(NULL), prev_(NULL) {}
+    Node(const T& v): value_(v), next_(NULL), prev_(NULL) {}
+
+    // Member variable:
+    T value_;
+    Node<T>* next_;
+    Node<T>* prev_;
+}
+
+insert function:
+// suppose p is the pointer points to the last element before the insertion
+template <class T>
+void insert(Node<T>* &p, T* &value, Node<T>* &head, Node<T>* &tail){
+    Node<int>* temp = new Node<T>(15);
+
+    // if there is nothing:
+    if (head == NULL){
+        head = temp;
+        tail = temp;
+    }else if (tail == p){
+        // insert at the back
+        temp->prev = tail;
+        tail->next = temp;
+        tail = temp;
+    }else{
+        // general case
+        temp->next_ = p->next_;
+        temp->prev_ = p;
+        p->next_ = temp;
+        (temp->next_)->prev_ = temp;
+    }
+}
+
+erase function:
+template <class T>
+void erase(Node<T>* &p, Node<T>* &head, Node<T>* &tail){
+    node<T>* prevNode = p->prev;
+    node<T>* nextNode = p->next;
+    if (head == p && nextNode != NULL){
+        // delete the first element and >1 elements
+        head = nextNode;
+        nextNode->prev = NULL;
+    }if (p == head){
+        // delete the only element
+        head = NULL;
+        tail = NULL;
+    }if (p == tail){
+        // delete the last element
+        prevNode = NULL;
+        tail = prevNode;
+    }else{
+        // general case
+        prevNode->next = nextNode;
+        nextNode->prev = prevNode;
+    }
+    delete p;
+}
+
+dslist: a templated doubly-linked list mimicking STL list
+involve: node class, iterator class, dslist class
+define: (all in .h file):
+Node class: (same as the top Node class)
+
+template <class T>
+class dslist;
+// list
+friend: give permission to the right-hand class access all the functions and member variables
+(no matter public or private) to the current class. (one-dimensional friendship)
+

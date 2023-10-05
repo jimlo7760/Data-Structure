@@ -1,0 +1,52 @@
+Exception:
+Plan for the worst case. (write if statements)
+Procrastination: assert().
+Industrial solution:
+try{
+    if (..){
+        throw std::string("....");
+    }
+}
+catch(std::string &error){
+    string-type throw error info.
+}
+catch(int &error){
+    int-type throw error info.
+}
+catch(...){     // all types, but cannot recieve the variable.
+
+}
+..rest of the codes
+
+e.g. catch from a function
+int my_func(int a, int b) throw(double, bool){
+    if (a>b){
+        return 20.3;
+    }else{
+        return false;
+    }
+}
+int main(){
+    try {
+        my_func(1, 2);
+    }
+    catch (double x){
+        std::cout << "caught a double" << x << std::endl;
+    }
+    catch (...){
+        std::cout << "caught some other type" << std::endl;
+    }
+}
+
+Must throw a object (non-void function) or an exception.
+void tri(std::string &pts){
+    if (pts.size() != 3){
+        throw -1;
+    }
+}
+try{
+    tri(std::string("abc"));
+}
+catch(std::exception e){
+    std::cout << e.what();
+}

@@ -1,0 +1,128 @@
+List:
+#include<list>
+(if we are told to change a vector-based program to a list-based one, switch all the index
+bracket to the iterator one, then change all the keyword "vector" to list.
+- also have a push_back() function.
+- cannot use the subscripting
+- have push_front and pop_front function (also have push_back and pop_back)
+- erase and insert functions are more efficient than that of in vector
+define:
+std::list<int> my_lst;
+
+sort: (is a member function in list)
+my_lst.sort(opt_condition);
+bigO: O(nlogn)
+
+list has a member function ".erase(iterator p)".
+(after erasing, iterator p will  points to nothing)
+return value: an iterator pointing to after the element we have removed.
+p = lst.erase(iterator p); => to avoid the unaddressed access.
+bigO notation: O(1)
+
+list has a member function ".insert(iterator p, int ele)"
+the return value of .insert() is a pointer to the element inserted in the list
+
+Node:
+template <class T>
+class Note(){
+public:
+    int value;
+    Node* pnt;
+}
+Node<int>* ll = new Node<int>
+ll->value = 6;
+ll->pnt = NULL;
+Node<int>* rr = new Node<int>
+rr->value = 10;
+rr->pnt = NULL;
+ll->pnt = rr;   // pointing to the next node
+
+Linked list:
+- Can define as empty
+- Can link to a node
+- Can link to another linked list
+
+head pointer: an individual variable that just a pointer to the first element of the linked list
+tail pointer: the pointer of the last element in the linked list
+
+find whether an element is in the linked list:
+template <class T>
+bool is_there(Node<T>* head, const T& x){
+    Node<T>* current_pnt = head;
+    while (current_pnt->pnt != NULL){
+        if(current_pnt->value == x){
+            return true;
+        }
+        current_pnt = current_pnt->pnt;     // moving the current pointer
+    }
+}
+
+push_front function:
+template <class T>
+void push_front (Node<T>* &head, const T& value) {
+    Node<T>* temp = new Node<T>;
+    temp->value = value;
+    temp->pointer = head;
+    head = temp;
+}
+bigO: O(1)
+
+difference between pass-by-reference and pass-by-value of the pointer:
+both of them can change the target value. Pass-by-reference can change the pointer's
+value, while pass-by-value cannot.
+
+push_back function:
+template <class T>
+void push_back (Node<T>* head, const T& value) {
+    Node<T>* temp = new Node<T>;
+    temp->value = value;
+    temp->pnt = NULL;
+    T* pointer = head;
+    while (pnt != NULL){
+        pointer = pointer->pnt;
+    }
+    pointer = temp;a
+}
+can also be written in the recursive version:
+void push_back (Node<T>* &head, const T& value){
+    if (head->pnt == NULL){
+        Node<T> temp = new Node<T>;
+        temp->value = value;
+        temp->pnt = NULL;
+        head->pnt = temp;
+    }else{
+        push_back(head->pnt, value);
+    }
+}
+
+insert function:
+template <class T>
+void insert(Node<T>* &head, Node<T>* &pnt, const T& value){
+    Node<T>* temp = new Node<T>;
+    temp->value = value;
+    temp->pnt = pnt;
+    if (head == pnt){
+        // insert in the front
+        head = temp;
+    }else{
+        while (head->pnt != pnt){
+            head = head->pnt;
+        }
+    }
+    Node<T> lastNode = (*head);
+    lastNode->pnt = temp;
+}
+
+erase function:
+template <class T>
+void erase(Node<T>* &head, Node<T>* &pnt){
+    if (head == pnt){
+        // erase from the front
+        head = pnt->pnt;
+    }
+    while (head->pnt != pnt){
+        head = head->pnt;
+    }
+    head->pnt = pnt->pnt;
+}
+

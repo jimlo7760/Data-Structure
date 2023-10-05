@@ -1,0 +1,102 @@
+pop_back: remove the last element in the vector, size -1.
+best / avg / worst cases are all O(1)
+
+erase_from_vector(unsigned int i, vector<std::string>& v){      // remove an element from a specific location i
+    for (unsigned int j = i; j < v.size() - 1; j++){
+        v[j] = v[j+1];
+    }
+    v.pop_back();
+}
+
+Iterators:
+declare:
+vector<string>::iterator p;
+vector<string>::const_iterator q; : can change the iterator but cannot change the vector through the iterator (cannot in the LHS)
+Define iterator in template class:
+typedef T* iterator;
+typedef const T* const_iterator;
+iterator-related functions:
+iterator erase(iterator p);
+iterator begin() {return m_data;}
+const_iterator begin() const {return m_data;}
+iterator end() {return m_data + m_size;}
+const_iterator end() const {return m_data + m_size;}
+(end() should not be dereference because it is a slot after the end of the vector, which is
+not the last element of the vector)
+
+
+vector<Student>::iterator i = student.begin();
+(*i).compute_average(0.45)      // = student[i].compute_average(0.45); = i->compute_average(0.45);
+iterator i have to be increased by ++i; (= "i += 1")
+the end iterator: vector.end() is a slot after the last object in the vector.
+out-of-scope iterator: is dangerous because the compiler would be mess up even they move backward;
+
+do-while loop: do the process then check the condition. (do at least once)
+do
+{
+
+}
+while (---);
+
+iterator version: erase_from_vector
+erase_from_vector(std::vector<std::string::iterator> itr, vector<string>& v){
+    std::vector<<std::string::iterator> itr2 = itr;
+    itr2++;
+    for ( ; itr2 != v.end(); itr++, itr2++){
+        (*itr) = (*itr2);       // v[j] = v[j+1];
+    }
+}
+template<class T> typename Vec<T>::iterator Vec<T>::erase(iterator p){
+    for (iterator q = p; q + 1 < m_data + m_size; ++q){
+        *q = *(q + 1)
+    }
+    m_size --;
+    return p;
+}
+
+Vector has a member function ".erase(iterator)", which has a principle of operation above.
+bigO notation: O(n)
+** if we want to get the return value of .erase(), we cannot erase(.end()) because the moving
+pointer of erase function will point to nothing.
+
+the iterator may be invalided after push_back/resize/erase in vector, because the shifting/copying
+of arrays may lead to pointers are not matching the data we want.
+
+Iterator in the list cannot "jump" (e.g. itr += 5), it can only be accessed sequentially.
+(e.g. ++itr or --itr)
+
+situations a iterator may be invalidated:
+- Iterator positioned on an STL vector, at after the point of an erase operation, are invalidated.
+- Iterators positioned anywhere on an STL vector may be invalid after insert (or push_back or resize) operator.
+- Iterators attached to an STL list are not invalidated after an insert or push_back/push_front
+or erase/pop_back/pop_front (Except iterators attached to the erased element)
+
+there is no "comparing operators" in list iterator while vector have.
+
+typename:
+Define the type immediately comes after this "typename"
+When there is a self-define name in the class (or T in the template), we have to clarify the type
+of a variable is the thing after the this keyword, otherwise it may recognise it as functions, variable, etc.
+
+insert function:
+v.insert(iterator p, element)
+iterator: all the element after p, including p, will "shift".
+return: the pointer of the element being inserted.
+
+reverse iterator:
+step through a list from back to the front
+std::list<int> a;
+unsigned int i;
+for ( i=1; i<10; ++i ) a.push_back( i*i );
+
+std::list<int>::reverse_iterator ri;
+for( ri = a.rbegin(); ri != a.rend(); ++ri )
+    cout << *ri << endl;    //print from 81 to 1
+
+seg fault in c++:
+1. Dereferencing a null pointer
+2. Dereferencing a uninitialized pointer
+3. Access out-of-boundary memory on vector/list/etc.
+4. Writing a read-only memory
+5. Stackoverflow.
+

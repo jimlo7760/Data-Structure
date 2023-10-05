@@ -1,0 +1,60 @@
+Map:#include <map> (similar to python dictionary)
+Associative Containers
+(Maps, Pair,...)
+define:
+std::map<key_type, value_type> var_name;
+
+Map search/insert/erase: bigO: O(log(n))
+
+std::map<key_type, value_type> counter;
+while (std::cin >> str){
+    ++counter[str]; // If they have existed, increment it, otherwise create a new slot
+}
+When adding a new key, they will be sorted automatically.
+Once the key is created, they cannot be changed, but only can be erased. (key_type are const)
+Duplicate keys are not allowed.
+
+Get the key/value in the map:
+for (std::map<std::string, int>::const_iterator it = counter.begin(); it != counter.end(); it++){
+    std::cout << it->first << it->second << std::endl; // it->first = key, it->second = value
+}
+
+std::pair: templated structure with 2 members, called first & second. (one-row map, first are changeable)
+Constructors:
+std::pair<int, double> p1(5, 7.5);
+std::pair<int, double> p2 = std::make_pair(8, 9.5);
+modify:
+p1.first = p2.first;
+p2.second = 13.3;
+The var_type can also be const, but in that case it cannot be changed.
+
+Operator:
+[]
+inside the []: key_value, to access the corresponding value
+Will always let the key_value entered be in the map afterwards.
+
+Map iterator:
+std::map<std::string, int>::const_iterator it = counter.begin(); it != counter.end(); i++;
+Access: it->first (for key), it->second(for value)
+
+Functions:
+map.find(key); // returns a iterator, will not modify the "key column"
+If the key is in the map, returns a iterator to the pair in the map
+If the key is not in the map, returns a iterator to the map.end();
+
+Insert:
+map.insert(std::make_pair(key, value));
+Will returns a pair: std::pair<map<key_type, value_type>::iterator, bool>
+Case 1: if the key is in the map: (will not change the map)
+    return a iterator direct to the existing pair in the map, bool = false;
+Case 2: if the key is not in the map: (change the map)
+    return a iterator direct to the newly added pair, bool = true;
+
+Erase: (3 versions)
+Version 1: erase(iterator p) -- erase the (*p) pair in the map (O(1))
+    return: an iterator point to the next pair
+Version 2: erase(iterator first, iterator last) -- erase all the pairs from first to last, including (*first) but not include (*last) (O(`1))`
+    return: an iterator pointing to the next pair
+Version 3: erase(const key_type& k) -- erase the pair containing key k. (O(log(n))
+    return: size_type, 0 if not exist, 1 if exist and erased successfully.
+

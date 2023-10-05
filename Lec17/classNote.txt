@@ -1,0 +1,40 @@
+Tree:
+All trees/sub-trees/nodes are connected.
+No cycles.
+
+Binary tree: Either empty or has pointers to two binary trees
+Topmost node: root
+pointers: left/right, pointing to the left/right sub-tree respectively.
+Leave node: the node BOTH children pointer are NULL.
+parent node: the unique which is pointing to it.
+Binary search tree:
+For every node in the tree:
+    1. Greater than or equal to all values stored in the left subtree.
+    2. Less than or equal to all values stored in the right subtree.
+
+Balanced tree:
+For EVERY parent node, they have a both left and right children tree.
+Possible to create one only if they have (2^n-1) of trees
+
+Balanced binary search tree: UNIQUE.
+Number of balanced binary tree can be created with a set of numbers: 0 or (n!)
+
+ds_set:
+template <class T> class TreeNode {
+public:
+    TreeNode(): left (NULL), right (NULL) {}
+    TreeNode(const T& init): value(init), left(NULL), right(NULL) {}
+    T value;
+    TreeNode* left;
+    TreeNode* right;
+}
+
+find the smallest value stored in BST (O(h)), h = the height of the tree
+template <class T>
+const T& find_smallest ( TreeNode<T>* root) {
+    if (root -> left == NULL){
+        return root -> value;
+    }
+    return find_smallest(root -> left);
+}
+

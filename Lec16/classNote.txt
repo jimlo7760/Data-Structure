@@ -1,0 +1,4 @@
+Map continue...
+map<string, vector<int>> m;
+m[string"hello").push_back(5) --> access the value of the map (vector in this case)
+

@@ -1,0 +1,32 @@
+STL set:
+element stored are unique, sorted.
+Set v.s Map: Set only store the feature of "key" values in map
+Element in set cannot change once define
+
+set iterator:
+are bi-directional: (++) and (--) are both allowed. .begin() and .end() to determine the bound.
+for (set<string>::iterator p = word.begin(); p != words.end(); ++p){
+    cout << (*p) << endl;
+}
+
+set insert:
+    returns a pair.
+    pair.first: iterator to the location in the set containing the entry
+    pair.second: true if the element wasn't in the list then inserted successfully.
+type 1: set.insert(10)
+type 2: set.insert(iterator hint, int key):
+    hint: iterator to specify the target position
+
+set erase:
+return: a number of entries are removed (either 0 or 1)
+type 1: set.erase(key):
+type 2: set.erase(iterator p):
+    remove a specific position in the set.
+type 3: set.erase(iterator start, iterator end):
+    remove all the keys from start to end in the set, including start but not include end;.
+
+set find:
+set.find(key):
+return an iterator pointing to the location of the element
+return set.end() if the entry is not in the set
+

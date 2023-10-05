@@ -1,0 +1,6 @@
+c++ array: vector
+define: std::vector<data_type> vector_name; => gives an empty vector; in int[], it may contain some garbage;
+func:
+vector_name.push_back('a') => push 'a' to the end of the vector
+vector_name.size()
+-- treat vector as an array

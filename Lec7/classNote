@@ -1,0 +1,6 @@
+big-o notation:
+in an equation, O(n) = the largest power of n, ignoring the coefficient.
+Big-o is not increase linearly.
+
+push_back: min: O(1); max: O(n); avg: O(1);
+

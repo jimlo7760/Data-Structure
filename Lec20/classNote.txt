@@ -1,0 +1,124 @@
+Hash table:
+Store a pair in a collection.
+
+Hash function:
+- return the integer index in the array.
+- Uniformly distribute the keys through the range of legal index values
+To avoid the collision in the array:
+Store a linked list in each slot.
+
+(n: number of actual entries) (N: number of possible entries)
+// vector-based hash table (Find/insert/erase: O(1), memory use: O(N))
+std::vector<std::string> phonebook(10000, "unknown caller"); // the top-level vector
+
+// map-based hash table (Find/insert/erase: O(logn), memory use: O(n))
+std::map<int, std::string> phonebook;
+
+#define PHONEBOOK_SIZE 10
+class Node{
+public:
+    int number;
+    string name;
+    Node* next;
+}
+
+// initializing the phonebook
+Node* phonebook[PHONEBOOK_SIZE];
+for (int i = 0; i < 10; i++){
+    phonebook[i] = NULL;
+}
+
+// find the slot stored in the array
+int hash_function(int number){
+    return number % PHONEBOOK_SIZE;
+}
+
+// add a new caller to the hash map
+void add(Node* phonebook[PHONEBOOK_SIZE], int number, string name){
+    int hash_number = hash_function(number);
+    if (phonebook[hash_number] == NULL){
+        phone[hash_number] = new Node(number, name, NULL);
+    }else{
+        Node* curNode = phone[hash_number];
+        phonebook[hash_number] = new Node(number, name, curNode);
+    }
+}
+
+// identify the caller (find)
+void identify(Node* phonebook[PHONEBOOK_SIZE], int number){
+    int hash_number = hash_function(number);
+    Node* ptr = phonebook [hash_number];
+    // not too much collision, so this while loop will be constant
+    while (ptr != NULL){
+        if (number == ptr -> number){
+            std::cout <<  ptr -> name << "is calling! " << std::endl;
+            return;
+        }
+        ptr = ptr -> next;
+    }
+    std::cout << "UNKNOWN CALLER  is calling" << std::endl;
+}
+
+unsigned int has(string const& k, unsigned int N){
+    unsigned int value = 0;
+    for (unsigned int i = 0; i < k.size(); i++){
+        value = value * 8 + k[i];       // conversion to int from a string. "dog" = stoi("d") + stoi("o") * 8 + stoi("g") * 64;
+    }
+    return k % N;
+}
+
+Templated hash set:
+template <class KeyType, class HashFunc>
+class ds_hashset {
+
+...
+
+private:
+    std::vector<std::list<KeyType> > m_table;   // the actual table
+    HashFunc m_hash;        // hash function
+    unsigned int m_size;    // number of keys
+}
+
+Hash iterator:
+void next(){
+    d++ m_list_itr; // next item in the list
+    if (m_list_itr == m_hs -> m_table[m_index].end()) {     // At the end of the list
+        ++m_index
+        // go to the next valid linked list
+        for (; m_index < int(m_hs->m_table[m_index].empty(); ++m_index){
+            if (m_index != int(m_hs->m_table.size())){
+                // when the next linked list is found
+                m_list_itr = m_hs -> m_table[m_index].begin();
+            }else{
+                // traverse all the way back and still not found
+                m_index = -1;
+            }
+        }
+    }
+}
+
+Hash set implementation:
+std::pair<iterator, bool> insert(KeyType const& key){
+    unsigned int hash_number = m_hash(key);
+    unsigned int index = hash_number & m_table.size();
+
+    // find-defined function
+    std::list<KeyType>::iterator itr = m_table[index].find(key);
+    if (itr != m_table[index].end()){
+        return std::make_pair(itr, false);
+    }
+
+    // full version
+    std::list<KeyType>::iterator itr = m_table[index].begin();
+    while (itr != m_table[index].end()){
+        if ((*itr) == key){
+            return std::make_pair(itr, false);
+        }
+        itr++;
+    }
+
+    m_table[index].push_back(key);
+    return std::make_pair(m_table[index].end(), true);
+}
+
+Resize func:

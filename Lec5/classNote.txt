@@ -1,0 +1,32 @@
+pointer:
+define: having a "*" when define.
+e.g.: float* p: p is gonna be a pointer, interpreting as a float.
+    p = &x: &x memory address of x, assigning to p
+    when change the value of *p, which points to x, it will also change the value of x;
+
+when p and q are both a pointer:
+    when without a "*":
+        p and q are both a memory address, instead of the pointing value.
+int *c = b;
+    // b => y, c => b
+    // therefore c => y
+
+Null pointer
+
+Array:
+The name of an array is the start pointer of the array;
+e.g.: a is an array;
+    double* p;
+    "p = a" is equivalent as "p = a[0]"
+increment of the pointer in an array:
+    adding the size of the datatype.
+    e.g.: ++p = adding 8 bytes to the address, since p is a double, and a double worth 8 bytes
+size of the array in terms of pointer;
+    n = 10;
+    double a[n];
+    double* p;
+    for (p = a, p < a + n; ++p){
+
+    }
+    "a + n" = 80 since "a" is an double array, and each size worth 8.
+    x

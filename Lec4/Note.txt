@@ -1,0 +1,35 @@
+Default constructor:
+every parameters have to be initialized. Including STL library. e.g: string = ""
+
+define the operator in the class:
+in .h file:
+bool operator< (const class_name& first);
+in class.cpp file:
+bool operator< (const class_name& first, cons class_name& second){
+    operating rule;
+}
+
+output operator in the class:
+in .h file:
+std::ostream& operator << (std::ostream& ostr, const class_name& n);
+in .cpp file:
+std:ostream& operator<< (std::ostream& ostr, const Name& n{
+    ostr << n.first() << " " << n.last();
+
+}
+
+add:
+#ifndef __name_h_
+#define __name_h_
+...
+#endif
+to the .h file to prevent errors from multiple includes
+
+"&" should be included in all the "get" function. (attach just after the
+ return type)
+
+ comparison function can add "const" and "&" in the parameters
+ comparison:
+ first > second: sort from greatest to smallest
+ first < second: sort from smallest to greatest
+

@@ -1,0 +1,10 @@
+Variant data structure
+
+Unrolled linked list: Embedded a fix-length array in each node.
+
+Skip list: store N pointers in the current node, pointing to the Nth node afterward.
+Each level contains roughly half the nodes of the previous level, approximately every other node from the previous level.
+Start from the highest level, lowering down when the target is lower than the pointer.
+
+Trie / Prefix tree: (an alternative representation of hash table)
+The stopping node of the tree is the corresponding value.

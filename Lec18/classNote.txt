@@ -1,0 +1,200 @@
+Tree part2:
+count the odd number in the tree:
+int count_odd (TreeNode<int>* node){
+    if (node == nullptr){
+        return 0;
+    }
+    return abs(node->value & 2) + count_odd(node->left) + count_odd(node->right_);
+}
+
+template <class T>
+class ds_set {
+public:
+    class TreeNode {
+    public:
+        TreeNode(): left(NULL), right(NULL) {}
+        TreeNode(const T& init): value(init), left(NULL), right(NULL) {}
+        T value;
+        TreeNode* left
+        TreeNode* right
+    }
+
+    class iterator{
+    public:
+        iterator(): ptr_(NULL) {}
+        iterator(TreeNode* p): ptr_(p) {}
+        iterator& operator=(const iterator& old) {ptr_ = old.ptr_; return *this;}
+        iterator& operator++(){     // iterator++ (return itself before ++)
+        // bigO: worst of single call: O(logn), avg of single call: O(1), total from .begin() to .end(): O(n) [touch every node twice (up/down)]
+            TreeNode* current_node = ptr_;
+            if (current_node -> right != NULL){
+                // go right once here
+                current_node = ptr -> right;
+                while (current_node -> left != NULL){
+                    // go to the smallest number in the right sub-tree
+                    current_node = current_node -> left;
+                }
+                ptr_ = current_node;
+            }else{
+                // doesn't have anything on its right
+                TreeNode* current_node = ptr_;
+                TreeNode* parent_node = ptr_ -> parent;
+                if (parent_node == NULL){
+                    // return the end iterator
+                    ptr_ = NULL;
+                    return *this;
+                }
+                while (parent -> right == current_node){
+                    if (parent_node == NULL){
+                        // return the end iterator
+                        ptr_ = NULL;
+                        return *this;
+                    }
+                    // decrease a degree
+                    current_node = parent_node;
+                    parent_node = current_node -> parent;
+                }
+                ptr_ = parent_node;
+                return *this;
+            }
+            return *this;
+        }
+        /...other operators
+    }
+
+    // constructor, destructor, assignment operator
+    ds_set(): root_(NULL), size_(0) {}
+    ds_set(const ds_set<T>& old): size_(old.size_) {root_ = this->copy_tree(old.root_))
+
+   iterator begin() const {
+        // get the node with the smallest value in the tree
+        TreeNode<T>* temp_ptr = root_;
+        while (temp_ptr -> left != NULL_){
+            temp_ptr = temp_ptr -> left;
+        }
+        return iterator(temp_ptr_);
+   }
+   iterator find(const T& key_value, TreeNode* p){
+        if (p == nullptr){
+            return iterator(NULL);
+        }
+        if (p->value == key_value){
+            return iterator(key_value)
+        }
+        if (p->value > key_value){
+            return find(key_value, p->left);
+        }
+        if (p->value < key_value){
+            return find(key_value, p->right);
+        }
+   }
+   std::pair<iterator, bool> insert(const T& key_value, TreeNode *& p){
+        if (!p){
+            p = new TreeNode(key_value);
+            this->size_++;
+            return std::pair<iterator, bool>(iterator(p), true);
+        }else if (key_value < p->value){
+            return insert(key_value, p->left);
+        }else if (key_value > p ->value){
+            return insert(key_value, p->right);
+        }else{
+            return std::pair<iterator, bool>(iterator<p), false);
+        }
+   }
+
+   // order of the tree:
+   void print_in_order(ostream& ostr, const TreeNode<T>* p){
+        if (p){
+            print_in_order(ostr, p->left);
+            ostr << p->value << "\n";
+            print_in_order(ostr, p->right);
+        }
+   }
+
+private:
+    TreeNode* root_;
+    int size_;
+
+    void destroy_tree(TreeNode* p){
+        if (p == NULL){
+            return;
+        }
+        destroy_tree(p->left);
+        destroy_tree(p->right);
+        size--;
+        delete p;
+    }
+}
+
+In-order:
+void inRec(treeNode<T>* root){
+    if (root){
+        inRec(root -> left);
+        std::cout << root -> value;
+        inRec(root -> right);
+    }
+}
+Pre-order:
+void inRec(treeNode<T>* root){
+    if (root){
+        std::cout << root -> value;
+        inRec(root -> left);
+        inRec(root -> right);
+    }
+}
+Post-order:
+void inRec(treeNode<T>* root){
+    if (root){
+        inRec(root -> left);
+        inRec(root -> right);
+        std::cout << root -> value;
+    }
+}
+
+copy function:
+TreeNode<T>*  copy_tree(TreeNode<T>* old_root) {
+// Implemented in Lab 10
+if (old_root == NULL){
+    return NULL;
+}
+T curVal = old_root -> value;
+TreeNode<T>* newRoot = new TreeNode(curVal);
+newRoot -> left = copy_tree(old_root -> left);
+newRoot -> right = copy_tree(old_root -> right);
+return newRoot;
+}
+
+breadth-first: completing the process on the current level before dealing with the next one.
+depth-first: all the way follow the path of the node. backtrace until we get the leaf node.
+
+breadth-first traversal:
+running time: O(n)
+memory usage: best: O(1) [when there is 1 node in each level), avg/worst: O(n)
+void breadth_first_traverse(Node* root){
+    if (root == NULL){
+        return;
+    }
+    int level = 0;
+    std::vector<Node*> currentLev;
+    std::vector<Node*> nextLev;
+    current_level.push_back(root);
+    while (current_level.size() != 0){
+        std::cout << "level: " << level;
+        for (int i = 0; i < current_level.size(); i++){
+            if ( current_level[i] -> left != NULL){
+                next_level.push_back(current_level[i] -> left);
+            }
+            if (current_level[i] -> right != NULL){
+                next_level.push_back(current_level[i] -> right);
+            }
+            std::cout << current_level[i] -> value << " ";
+        }
+        level ++;
+        current_level = next_level;
+        next_level.clear();
+        std::cout << std::endl;
+    }
+}
+
+Tree iterator:
+printing the tree in ascending order (in-order):

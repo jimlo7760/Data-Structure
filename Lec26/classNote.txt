@@ -1,0 +1,58 @@
+Inheritance
+class Account{
+public:
+    Account(double bal = 0.0): balance(bal) {}
+    void deposit(double amt) {balance += amt; }
+    double get_balance() const {return balance; }
+protected:  // private for all other classes but accessible for its children.
+    double balance;
+}
+
+class SavingsAccount: public Account {
+public:
+    SavingAccount(double bal = 0.0, double pct = 5.0): Account(bal), rate(pct/100.0) {}
+    double compound(){
+        double interest = balance * rate;
+        balance += interest;
+        return interest;
+    }
+    double withdraw(double amt){
+        if (amt > balance){
+            return 0.0;
+        }
+        balance -= amt;
+        return amt;
+    }
+}
+
+class TimeAccount: public SavingsAccount {
+public:
+...
+    double compound(){
+        double interest = SavingsAccount::compound();    // call the function in the specific class. If not specified, call the closest one (from itself to parent..)
+    }
+}
+
+Constructor:
+All parent classes will be called, from parent to children.
+Destructor:
+reverse sequence as the constructor.
+
+Queue based on the inheritance from a list:
+template <class T>
+class stack : private std::list<T> {
+public:
+    stack() {}
+    stack(stack<T> const& other) : std::list<T>(other) {}
+    void push(T const& value) {this -> push_back(value); }
+    void pop() {this -> pop_back(); }
+}
+
+virtual: go down the children to find a more specific redefined function.
+Function with virtual ...(function define)... = 0, is pure virtual function, and that class is called abstract. (cannot create an object, but a pointer can create)
+
+std::list<Polygon*> polygons;   // this list can store all polygons & its children classes
+Polygon* p_ptr = new Traingle();
+
+*i is a pointer to polygon
+dynamic_cast<Quadrilateral*> (*i) => attempt to cast to quad. If not success, i = NULL.

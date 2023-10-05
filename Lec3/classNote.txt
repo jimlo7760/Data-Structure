@@ -1,0 +1,28 @@
+c++ class: (default: private)
+- member variables: usually private
+- member function: usually public
+- cannot directly output by the 'cout', use the function in the class instead.
+- when comparing two classes, use a function either.
+define:
+class class_name{
+   public:
+        NEED: constructor...
+        default constructor: class();
+        constructor with argument(s): class(1, 2)
+
+   private:
+        (only access/modified within the class)
+};
+
+.h: reference from another file
+
+call in main.cpp:
+int Date::getYear() const{
+    return year;
+}
+
+Only const class can call const class.
+
+customise sort function:
+sort(vector.begin(), vector.end(), self-define-rule);
+bool

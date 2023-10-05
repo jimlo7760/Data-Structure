@@ -1,0 +1,96 @@
+Vector Implementation: build our own vector mimicking the features of STL vector
+ALL the vector implementations are in one file. (all should put in .h, no .cpp file)
+template Vector is also allowed one datatype within a vector.
+
+"const" should be used with "&" together, only a "const" is useless.
+
+
+template <Class T>
+Class Vec{
+public:
+    typedef unsigned int size_type; => let size_type = unsigned int
+    constructor: (all the function calls here have to be private)
+    Vec() {this->create();}
+    Vec(size_type n, const T& t = T()) { this->create(n, t); }
+    // copy constructor: (the default copy constructor will point to same m_data in the heap, rather than copy a new one.
+    Vec(const Vec& v) {copy(v); }
+    // assignment operator:
+    Vec& operator=(const Vec& v);
+    // destructor:
+    ~Vec() { destroy(); }
+
+
+    public member functions and operators:
+    T& operator[]   (size_type i) {return m_data[i]}; => = vector[i] = vector.operator[](7); (read-and-write function)
+    const T& operator[] (size_type i) const {return m_data[i]} => (read-only get function) (const in return type refer that the return value is not allowed to modify either)
+    void push_back(const T& t); => as shown;
+    void resize(size_type n, const T& fill_in_value = T()); => Whatever the length of the function, resizing it to the designate size. (the "=" argument in the parameter list refers to optional parameter)
+    size_type size() const {return m_size;}
+
+private:
+    // private member variable of the Vec
+    void create();
+    void create(size_type n, const T& val);
+    void copy(const Vec<T>& v);
+    void destroy() { delete [] m_data; }
+
+    // representation
+    T* m_data;  => pointer to the first element (hidden, no getter & setter function)
+    size_type m_size; => number of elements stored in the vector (
+    size_type m_alloc; => number of array locations allocated (m_size <= m_alloc) (hidden, no getter & setter function)
+};
+
+template <class T>
+void Vec<T>::create() {
+    m_data = NULL;
+    m_size = m_alloc = 0; // No memory allocated yet.
+}
+
+template <class T>
+void Vec<T>::create(size_type n, const T& val){
+    m_data = new T[n];
+    m_size = m_alloc = n;
+    for (size_type i = 0; m_size < n; i++){
+        m_data[i] = val;
+    }
+}
+
+template <class T>
+void Vec<T>::push_back(const T& val){
+    if (m_size == m_alloc){
+        // copy the current array to the new one with doubled size
+        // step 1. create a temp pointer, to the newly-created double-sized array
+        T* temp = new T[m_alloc * 2];
+        // step 2. copy the old array to the new array
+        for (size_type i = 0; i < m_alloc; i++){
+            temp[i] = m_data[i];
+        }
+        m_alloc *= 2;
+        // step 3. delete the old array
+        delete[] m_data;
+        // direct the pointer to the new array
+        m_data = temp;
+    }
+    // add the new variable to the array
+    m_data[m_size] = val;
+    ++ m_size;
+}
+
+template <Class T>
+void Vec<T>::copy(const Vec<T>& v){
+    m_data = new T[v.m_alloc];
+    for (size_type i=0; i < v.m_size; i++){
+        m_data[i] = v.m_data[i];
+    }
+    m_size = v.m_size;
+    m_alloc = v.m_alloc;
+}
+
+template <Class T>
+Vec<T>& Vec<T>::operator=(const Vec<T>& v){
+    if(this != &v){     // check if they are not self-assignment (v1 = v1)
+        this->destroy();
+        this->copy(v);
+    }
+    return *this;
+}

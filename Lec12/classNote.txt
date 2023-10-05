@@ -1,0 +1,77 @@
+Recursion
+- Usually have same bigO notation with the iterative version
+
+Binary search
+template <class T>
+bool binsearch(const std::vector<T> &v, int low, int high, const T &x){
+    if (high == low){
+        return x == v[low];
+    }
+    int mid = (low + high) / 2;
+    if (x <= v[mid]){
+        return binsearch(v, low, mid, x);
+    }else{
+        return binsearch(v, mid+1, high, x);
+    }
+}
+
+// driver function to initial call the binary search
+template <class T>
+bool binsearch(const std::vector<T> &v, const T &x){
+    return binsearch(v, 0, v.size()-1, x);
+}
+
+Merge sort
+// driver function
+template <class T>
+void mergesort(std::vector<T>& values){
+    std::vector<T> scratch(values.size());
+    mergesort(0, int(values.size()-1), values, scratch);
+}
+// recursive function
+template <class T>
+void mergesort(int low, int high, std::vector<T>& values, std::vector<T>& scratch){
+    std::cout << "mergesort: low = " << low << ", high = " << high << std::endl;
+    if (low >= high)
+        return;
+    int mid = (low + high) / 2;
+    mergesort(low, mid, values, scratch);
+    mergesort(mid+1, high, values, scratch);
+    merge(low, mid, high, values, scratch);
+}
+// helper function of the recursive function
+template <class T>
+void merge(int low, int mid, int high, int value, std::vector<T> &scratch){
+    int i = low;
+    int j = mid + 1;
+    k = low;
+
+    // while there's still something left in one of the sorted sub-intervals:
+    while (i <= mid && j <= high){
+        // look at the top values, grab the smaller one, store it in the scratch vector
+        if (values[i] < values[j]){
+            scratch[k] = values[i];
+            i++;
+        }else{
+            scratch[k] = values[j];
+            j++;
+        }
+        k++;
+    }
+
+    while (i <= mid){
+        scratch[k] = values[i];
+        i++;
+        k++;
+    }
+    while (j <= high){
+        scratch[k] = values[j];
+        j++;
+        k++;
+    }
+
+    // copy the scratch back to values
+    for (l = low; l <= high; l++){
+        values[l] = scratch[l];
+    }
+}

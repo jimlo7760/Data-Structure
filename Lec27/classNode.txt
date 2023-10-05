@@ -1,0 +1,87 @@
+Consider a back account object:
+if:
+account.deposit(50);
+account.withdraw(100); happens at the same time:
+process each line in these functions alternative (one line in deposit, then one line in withdraw)
+
+Atomic function:
+process function are not interrupted  from its beginning to end.
+
+Mutex: only one function can "unlock" and access the object at the same time.
+#include <mutex>
+
+class Chalkboard{
+public:
+    Chalkboard() {}
+    void write(Drawing d){
+        board.lock();
+        drawing = d;
+        board.unlock();
+    }
+    Drawing read(){
+        board.lock();
+        Drawing answer = drawing;
+        board.unlock();
+        return answer;
+    }
+private:
+    Drawing drawing;
+    std::mutex board;
+}
+
+If two functions attend to lock simultaneously, first lock first process, the other wait until unlock;
+
+Multi-thread: (process multiple functions at the same time)
+#include <thread>
+void student_thread(Chalkboard *chalkboard){
+    Student student(chalkboard);
+    for (int i = 0; i < num_notes; i++){
+        student.TakeNotes(); => contain chalkboard.read();
+    }
+}
+int main(){
+    Chalkboard chalkboard;
+    Professor prof(&chalkboard);
+    std::thread student(student_thread, &chalkboard);       // process same time with the loop below
+    for (int i = 0; i < num_notes; i++){
+        prof.Lecture("blah blah");  => contain chalkboard.write();
+    }
+    student.join();     // wait until student finished taking note
+}
+In the above cases, students may copy one diagram for multiple times, and missed some diagram.
+Goal: optimise the above code to make sure diagram is re-write after students is done.
+ => add a boolean to see whether students finished copying.
+class Chalkboard{
+public:
+    Chalkboard() {}
+    void write(Drawing d){
+        while (1){
+            board.lock();
+            if (student_done){
+                drawing = d;
+                student_done = false;
+                board.unlock();
+                return;
+            }
+            board.unlock();
+
+        }
+    }
+    Drawing read(){
+        while (1){
+            board.lock();
+            if (!student_done){
+                Drawing answer = drawing;
+                student_done = true;
+                board.unlock();
+                return answer;
+            }
+            board.unlock();
+        }
+    }
+private:
+    Drawing drawing;
+    std::mutex board;
+    bool student_done;
+}
+
